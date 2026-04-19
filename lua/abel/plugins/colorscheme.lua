@@ -1,79 +1,32 @@
 return {
-  -- "sainnhe/gruvbox-material",
-  -- lazy = false,
-  -- priority = 1000,
-  -- config = function()
-  --   -- Optionally configure and load the colorscheme
-  --   -- directly inside the plugin declaration.
-  --   if vim.fn.has("termguicolors") == 1 then
-  --     vim.opt.termguicolors = true
-  --   end
-  --
-  --   local function load_theme()
-  --     local theme = vim.fn.system("defaults read -g AppleInterfaceStyle")
-  --     if string.match(theme, "Dark") then
-  --       vim.opt.background = "dark"
-  --     else
-  --       vim.opt.background = "light"
-  --     end
-  --   end
-  --
-  --   load_theme()
-  --
-  --   vim.g.gruvbox_material_background = "hard"
-  --
-  --   vim.g.gruvbox_material_transparent_background = 1
-  --   vim.g.gruvbox_material_dim_inactive_windows = 0
-  --   vim.g.gruvbox_material_enable_italic = true
-  --   vim.g.gruvbox_material_disable_italic_comment = 0
-  --
-  --   vim.cmd.colorscheme("gruvbox-material")
-  --
-  --   vim.api.nvim_create_user_command("LoadTheme", function()
-  --     load_theme()
-  --     vim.notify("Theme updated based on system appearance", vim.log.levels.INFO)
-  --   end, {})
-  -- end,
-  --
-  -- ROSE PINE THEME
-  --
-  "rose-pine/neovim",
-  name = "rose-pine",
+  "projekt0n/github-nvim-theme",
+  name = "github-theme",
+  lazy = false,
   priority = 1000,
   config = function()
-    require("rose-pine").setup({
-      styles = {
-        bold = true,
-        italic = true,
-        transparency = true,
-      },
-      enable = {
-        terminal = true,
-        legacy_highlights = true,
-        migrations = true,
+    require("github-theme").setup({
+      options = {
+        transparent = false,
       },
     })
 
-    -- if vim.fn.has("termguicolors") == 1 then
-    --   vim.opt.termguicolors = true
-    -- end
-
-    local function load_theme()
-      local theme = vim.fn.system("defaults read -g AppleInterfaceStyle")
-      if string.match(theme, "Dark") then
-        vim.opt.background = "dark"
+    local function apply_github_theme()
+      if vim.o.background == "light" then
+        vim.cmd.colorscheme("github_light")
       else
-        vim.opt.background = "light"
+        vim.cmd.colorscheme("github_dark")
       end
+
+      -- Keep statusline plain/minimal.
+      vim.api.nvim_set_hl(0, "StatusLine", { fg = "NONE", bg = "NONE", bold = false })
+      vim.api.nvim_set_hl(0, "StatusLineNC", { fg = "NONE", bg = "NONE", bold = false })
     end
 
-    load_theme()
-
-    vim.cmd.colorscheme("rose-pine")
+    apply_github_theme()
 
     vim.api.nvim_create_user_command("LoadTheme", function()
-      load_theme()
-      vim.notify("Theme updated based on system appearance", vim.log.levels.INFO)
+      apply_github_theme()
+      vim.notify("Loaded GitHub " .. vim.o.background .. " theme", vim.log.levels.INFO)
     end, {})
   end,
 }
